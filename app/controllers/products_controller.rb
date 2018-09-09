@@ -1,6 +1,11 @@
 class ProductsController < ApplicationController
-  before_action :authenticate_user!
-  before_action :identify_product
+  if Rails::VERSION::MAJOR >= 5
+    before_action :authenticate_user!
+    before_action :identify_product
+  else
+    before_filter :authenticate_user!
+    before_filter :identify_product
+  end
 
   def show
     send_file @path, :disposition => "attachment; filename=#{@file}"
